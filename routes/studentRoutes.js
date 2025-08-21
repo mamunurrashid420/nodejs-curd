@@ -23,4 +23,7 @@ router.delete('/delete/:id', deleteStudent);
 // Multer for profile image upload
 router.post('/upload/:id', upload.single('image'), uploadProfile);
 
+// get route to fetch student data 
+router.get('/get/:id', );
+
 module.exports = router;
