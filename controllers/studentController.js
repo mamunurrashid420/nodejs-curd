@@ -317,7 +317,14 @@ if(!data){
 res.status(201).send({
     success: true,
     message: 'Student created',
-    data: data[0],
+     data: {
+        id: result.insertId,  // Get the auto-generated student ID
+        name,
+        roll_no,
+        class: className,
+        fees,
+        medium,
+      },
   });
 } catch (error) {
     console.log(error);

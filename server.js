@@ -37,6 +37,7 @@ const upload = multer({ storage: storage });
 module.exports = upload;
 
 app.use("/api/v1/student", require('./routes/studentRoutes'));
+app.use("/api/v1/user", require('./routes/userRoutes'));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
