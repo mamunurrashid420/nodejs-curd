@@ -1,26 +1,26 @@
 const express = require("express");
-const { getStudents, getStudentById, createStudent, updateStudent, deleteStudent } = require("../controllers/studentController");
+const { getStudents, getStudentById, createStudent, updateStudent, deleteStudent, uploadProfile } = require("../controllers/studentController");
+const upload = require('../server'); // Import the upload from server.js
 
-//route object
+// Route object
 const router = express.Router();
 
-
-//Get all students
+// Get all students
 router.get("/getall", getStudents);
 
-// get all by id
+// Get student by id
 router.get("/get/:id", getStudentById);
 
-
-// create student 
+// Create student
 router.post('/create', createStudent);
 
-//update student 
+// Update student
 router.put('/update/:id', updateStudent);
 
-// delete student 
-
+// Delete student
 router.delete('/delete/:id', deleteStudent);
 
-module.exports = router;
+// Multer for profile image upload
+router.post('/upload/:id', upload.single('image'), uploadProfile);
 
+module.exports = router;

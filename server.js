@@ -16,16 +16,16 @@ app.use(morgan('dev'));
 
 // Create uploads folder if it doesn't exist
 const uploadDir = "./uploads";
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
 // Multer storage configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, uploadDir);
+    cb(null, uploadDir); // Uploads to the "uploads" folder
   },
   filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname); // file extension
-    const name = file.originalname.replace(ext, "").replace(/\s+/g, "_"); // sanitize name
+    const ext = path.extname(file.originalname); // File extension
+    const name = file.originalname.replace(ext, "").replace(/\s+/g, "_"); // Sanitize name
     cb(null, `${name}_${Date.now()}${ext}`); // filename + timestamp + extension
   },
 });
@@ -33,30 +33,12 @@ const storage = multer.diskStorage({
 // Multer middleware
 const upload = multer({ storage: storage });
 
-// Routes
+// Export upload middleware for use in routes
+module.exports = upload;
+
 app.use("/api/v1/student", require('./routes/studentRoutes'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.get('/test', (req, res) => {
-  res.status(200).send('<h1>Welcome to NodeJS server test</h1>');
-});
-
-// Single file upload
-app.post('/upload', upload.single('image'), (req, res) => {
-  res.status(200).send({
-    success: true,
-    message: 'File uploaded',
-    data: req.file,
-  });
-});
-
-// Multiple file upload
-app.post('/uploads', upload.array('images', 12), (req, res) => {
-  res.status(200).send({
-    success: true,
-    message: 'Files uploaded',
-    data: req.files,
-  });
-});
 
 const port = process.env.PORT || 8000;
 
