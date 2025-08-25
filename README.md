@@ -34,5 +34,8 @@ npm install bcrypt
 ```
 npm install cloudinary
 ```
-## Tenth
-```
+
+## Node Design
+
+
+![Alt Text](https://github.com/mamunurrashid420/nodejs-curd/blob/main/img/node.png)
